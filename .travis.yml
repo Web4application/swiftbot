@@ -1,0 +1,41 @@
+language: python
+python:
+  - "3.10"
+
+services:
+  - docker
+
+env:
+  global:
+    - BUILD_DIR=build
+
+before_install:
+  - echo "Running bootstrap script..."
+  - chmod +x .travis/bootstrap.sh
+  - ./travis/bootstrap.sh
+
+install:
+  - echo "Installing dependencies..."
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
+
+before_script:
+  - echo "Running any pre-test setup..."
+
+script:
+  - echo "Running unit tests..."
+  - python -m unittest discover -s tests/ -p "test_*.py"
+  - echo "Running model training..."
+  - python models/train_model.py
+  - echo "Running evaluation..."
+  - python models/evaluate_model.py
+
+after_success:
+  - echo "All tests and builds passed successfully!"
+
+notifications:
+  email:
+    recipients:
+      - kubulee.kl@gmail.com
+    on_success: change
+    on_failure: always

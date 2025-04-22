@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RODA AI</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="icon" href="/assets/favicon.ico">
+</head>
+<body>
+    <!-- Main App Container -->
+    <div id="app">
+        <!-- Header -->
+        <header>
+            <h1>Welcome to RODA AI</h1>
+            <p>Your all-in-one interactive assistant</p>
+        </header>
+        <h2>AI Text Analysis History</h2>
+        <ul id="analysis-list"></ul>
+
+        <!-- Interaction Section -->
+        <section id="interaction-section">
+            <!-- User Input -->
+            <div id="user-input-container">
+                <input type="text" id="text-input" placeholder="Type your question here...">
+                <button id="submit-text">Submit</button>
+            </div>
+
+            <!-- Multimedia Input -->
+            <div id="multimedia-container">
+                <input type="file" id="file-input" accept="image/*" />
+                <button id="upload-button">Upload Image</button>
+            </div>
+
+            <!-- Speech Recognition -->
+            <div id="speech-container">
+                <button id="start-speech">Start Speech Recognition</button>
+                <p id="speech-feedback">Speech recognition feedback will appear here...</p>
+            </div>
+        </section>
+
+        <!-- Responses Section -->
+        <section id="response-section">
+            <div id="response-container">
+                <h2>RODA AI Responses</h2>
+                <div id="text-responses"></div>
+                <div id="image-responses"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>&copy; 2025 RODA AI. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script type="module" src="/assets/script.js"></script>
+    <script>
+  async function loadAnalysisHistory() {
+    try {
+      const response = await fetch('http://localhost:3000/api/history');
+      const history = await response.json();
+
+      const list = document.getElementById('analysis-list');
+      list.innerHTML = '';
+
+      history.reverse().forEach(entry => {
+        const item = document.createElement('li');
+        item.textContent = `[${new Date(entry.timestamp).toLocaleTimeString()}] "${entry.text}" → ${entry.analysis}`;
+        list.appendChild(item);
+      });
+    } catch (err) {
+      console.error('Failed to load analysis history:', err);
+    }
+  }
+
+  loadAnalysisHistory();
+  setInterval(loadAnalysisHistory, 5000); // refresh every 5 sec
+</script>
+         <script>
+            (function(b,d,h,e,f,a,c){a=d.getElementsByTagName("script");c=!1;
+            var k=e.substring(e.lastIndexOf("/")+1);b.formIds=b.formIds?b.formIds:[];
+            for(var g=0;g<a.length;g++)-1<a[g].src.indexOf(k)&&(c=!0);b[f]&&(b.formIds=b.formIds.concat(b[f].form_ids));
+            b.formObject=f;b[f]=function(a){if(a.form_ids){
+                var c=b.formIds.concat(a.form_ids),d=[],e;for(e in c)c.hasOwnProperty(e)&&-1==d.indexOf(c[e])&&d.push(c[e]);
+                a.form_ids=d}b[f]=a};c||(a=d.createElement(h),c=d.getElementsByTagName(h)[0],a.async=!0,a.src=e,c.parentNode.insertBefore(a,
+                    c))})(window,document,'script', '//cdn3.editmysite.com/app/marketing/js/dist/lead-form.js','leadForm');
+            leadForm({ form_ids: ["c76c3fc2-d614-4859-bdb5-790828fd54f5"], preview: 0, asset_domain: 72202075'www.xweebly.com/app/marketing' });
+        </script>
+            </body>

@@ -1,0 +1,11 @@
+{
+  "domain": "rodaai",
+  "name": "RODAAI Integration",
+  "version": "1.0",
+  "documentation": "https://github.com/Web4application/RODAAI/wiki",
+  "dependencies": [],
+  "requirements": [],
+  "codeowners": ["@Web4application"],
+  "config_flow": true,
+  "iot_class": "local_polling"
+}
