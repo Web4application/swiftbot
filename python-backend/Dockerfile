@@ -1,15 +1,15 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install Python dependencies
-COPY requirements.txt ./
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend source
-COPY . .
+COPY app.py .
 
-# Expose Python backend port (adjust if needed)
+ENV PYTHONUNBUFFERED=1
+ENV PYTHON_API_KEY=supersecretpythonkey
+
 EXPOSE 5000
 
-CMD ["python", "app.py"]
+CMD ["gunicorn", "app:app", "-b", "0.0.0.0:5000"]
