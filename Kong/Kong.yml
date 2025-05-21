@@ -1,0 +1,24 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+  - name: python-backend
+    url: http://python-backend:5000
+    routes:
+      - name: python-route
+        paths:
+          - /python
+
+  - name: dart-app
+    url: http://dart-app:8080
+    routes:
+      - name: dart-route
+        paths:
+          - /dart
+
+  - name: node-app
+    url: http://node-app:3000
+    routes:
+      - name: node-route
+        paths:
+          - /node
