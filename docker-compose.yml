@@ -1,20 +1,23 @@
-version: '3.8'
+version: '3.9'
 
 services:
-  frontend:
+  nodeapp:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ./node-app
     ports:
       - "3000:3000"
     depends_on:
-      - backend
+      - pythonapp
+      - dartapp
 
-  backend:
-    image: node:14
-    working_dir: /app
-    volumes:
-      - ./backend:/app
-    command: npm start
+  pythonapp:
+    build:
+      context: ./python-backend
     ports:
       - "5000:5000"
+
+  dartapp:
+    build:
+      context: ./dart-app
+    ports:
+      - "8080:8080"  # adjust if your Dart app serves HTTP
