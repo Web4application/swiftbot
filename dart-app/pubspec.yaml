@@ -1,0 +1,11 @@
+name: dart_app
+description: A Dart script analyzer app
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  shelf: ^1.4.0
+  shelf_router: ^1.1.4
+  http: ^0.13.6
