@@ -21,3 +21,25 @@ app.post("/analyze", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Node.js server listening on port ${PORT}`);
 });
+
+app.post("/analyze-dart", async (req, res) => {
+  try {
+    const response = await axios.post("http://dart-app:8080/analyze", req.body, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to analyze script with Dart." });
+  }
+});
+
+app.post("/analyze-dart", async (req, res) => {
+  try {
+    const response = await axios.post("http://dart-app:8080/analyze", req.body, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    res.json(response.data);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to analyze script with Dart." });
+  }
+});
