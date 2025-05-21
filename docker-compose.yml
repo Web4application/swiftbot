@@ -1,23 +1,29 @@
-version: '3.9'
+version: "3.9"
 
 services:
-  nodeapp:
-    build:
-      context: ./node-app
+  node-app:
+    build: ./Node-app
     ports:
       - "3000:3000"
+    environment:
+      - PYTHON_API_KEY=supersecretpythonkey
+      - DART_API_KEY=supersecretdartkey
+      - PYTHON_BACKEND_URL=http://python-backend:5000
+      - DART_BACKEND_URL=http://dart-app:8080
     depends_on:
-      - pythonapp
-      - dartapp
+      - python-backend
+      - dart-app
 
-  pythonapp:
-    build:
-      context: ./python-backend
-    ports:
-      - "5000:5000"
+  python-backend:
+    build: ./Python-backend
+    environment:
+      - PYTHON_API_KEY=supersecretpythonkey
+    expose:
+      - "5000"
 
-  dartapp:
-    build:
-      context: ./dart-app
-    ports:
-      - "8080:8080"  # adjust if your Dart app serves HTTP
+  dart-app:
+    build: ./Dart-app
+    environment:
+      - DART_API_KEY=supersecretdartkey
+    expose:
+      - "8080"
