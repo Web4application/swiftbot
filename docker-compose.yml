@@ -1,42 +1,53 @@
-version: '3.8'
+version: "3.9"
 
 services:
   kong:
-    image: kong:3.3
+    image: kong:3.6
     container_name: kong
+    restart: always
     ports:
-      - "8000:8000"   # Proxy
-      - "8001:8001"   # Admin API
+      - "8000:8000"
+      - "8001:8001"
     environment:
       KONG_DATABASE: "off"
       KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
-      KONG_PROXY_ACCESS_LOG: /dev/stdout
-      KONG_ADMIN_ACCESS_LOG: /dev/stdout
-      KONG_PROXY_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_ERROR_LOG: /dev/stderr
-      KONG_ADMIN_LISTEN: 0.0.0.0:8001
-      KONG_PROXY_LISTEN: 0.0.0.0:8000
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001"
+      KONG_PROXY_LISTEN: "0.0.0.0:8000"
     volumes:
-      - ./kong/kong.yml:/usr/local/kong/declarative/kong.yml
+      - ./kong/kong.yml:/usr/local/kong/declarative/kong.yml:ro
     depends_on:
       - node-app
       - python-backend
       - dart-app
 
   node-app:
-    build: ./node-app
+    build:
+      context: ./node-app
     container_name: node-app
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    networks:
+      - backend
 
   python-backend:
-    build: ./python-backend
+    build:
+      context: ./python-backend
     container_name: python-backend
-    expose:
-      - "5000"
+    ports:
+      - "5000:5000"
+    networks:
+      - backend
 
   dart-app:
-    build: ./dart-app
+    build:
+      context: ./dart-app
     container_name: dart-app
-    expose:
-      - "8080"
+    ports:
+      - "8080:8080"
+    networks:
+      - backend
+
+networks:
+  backend:
