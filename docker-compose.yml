@@ -1,29 +1,42 @@
-version: "3.9"
+version: '3.8'
 
 services:
-  node-app:
-    build: ./Node-app
+  kong:
+    image: kong:3.3
+    container_name: kong
     ports:
-      - "3000:3000"
+      - "8000:8000"   # Proxy
+      - "8001:8001"   # Admin API
     environment:
-      - PYTHON_API_KEY=supersecretpythonkey
-      - DART_API_KEY=supersecretdartkey
-      - PYTHON_BACKEND_URL=http://python-backend:5000
-      - DART_BACKEND_URL=http://dart-app:8080
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001
+      KONG_PROXY_LISTEN: 0.0.0.0:8000
+    volumes:
+      - ./kong/kong.yml:/usr/local/kong/declarative/kong.yml
     depends_on:
+      - node-app
       - python-backend
       - dart-app
 
+  node-app:
+    build: ./node-app
+    container_name: node-app
+    expose:
+      - "3000"
+
   python-backend:
-    build: ./Python-backend
-    environment:
-      - PYTHON_API_KEY=supersecretpythonkey
+    build: ./python-backend
+    container_name: python-backend
     expose:
       - "5000"
 
   dart-app:
-    build: ./Dart-app
-    environment:
-      - DART_API_KEY=supersecretdartkey
+    build: ./dart-app
+    container_name: dart-app
     expose:
       - "8080"
