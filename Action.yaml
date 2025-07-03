@@ -1,4 +1,3 @@
-
 ---
 
 ## ✅ Now Create GitHub Repo
@@ -6,6 +5,7 @@
 Here’s what to do:
 
 ```bash
+
 git init
 git add .
 git commit -m "Initial commit: Script Analyzer Bot 💻"
