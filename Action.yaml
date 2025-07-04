@@ -1,12 +1,14 @@
----
+name: SwiftBot CI
 
-## ✅ Now Create GitHub Repo
+on:
+  push: { branches: [main] }
 
-Here’s what to do:
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: Script Analyzer Bot 💻"
-gh repo create personal-script-analyzer-bot --public --source=. --remote=origin
-git push -u origin main
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build
+        run: swift build -c release
+      - name: Run unit tests
+        run: swift test
