@@ -17,3 +17,12 @@ git branch -m codespace-bookish-rotary-phone-4jq5vwwj59rqcjrpv main
 git fetch origin
 git branch -u origin/main main
 git remote set-head origin -a
+
+# Generate
+swift run swiftbot generate "Suggest 5 startup ideas in fintech"
+
+# Summarize a PDF
+swift run swiftbot summarize ./whitepaper.pdf
+
+# Interactive Chat
+swift run swiftbot chat
