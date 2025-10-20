@@ -1,0 +1,9 @@
+name: dart_script_analyzer
+description: A minimal Dart script analyzer service
+version: 1.0.0
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  http_server: ^0.12.0

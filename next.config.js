@@ -6,6 +6,28 @@ console.log("[Next] build mode", mode);
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
 console.log("[Next] build with chunk: ", !disableChunk);
 
+export default withSentryConfig(nextConfig, {
+  // Route browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers.
+  // This can increase your server load as well as your hosting bill.
+  // Note: Check that the configured route will not match with your Next.js middleware, otherwise reporting of client-side errors will fail.
+  tunnelRoute: "/monitoring",
+});
+
+const { withSentryConfig } = require("@sentry/nextjs");
+const nextConfig = {
+  // Your existing Next.js configuration
+};
+// Make sure adding Sentry options is the last code to run before exporting
+module.exports = withSentryConfig(nextConfig, {
+  org: "web4app",
+  project: "swiftbot",
+  // Only print logs for uploading source maps in CI
+  // Set to `true` to suppress logs
+  silent: !process.env.CI,
+  // Automatically tree-shake Sentry logger statements to reduce bundle size
+  disableLogger: true,
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack(config) {
@@ -85,4 +107,3 @@ if (mode !== "export") {
 }
 
 export default nextConfig;
-
