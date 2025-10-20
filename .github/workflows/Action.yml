@@ -1,18 +1,3 @@
-name: SwiftBot CI
-
-on:
-  push: { branches: [main] }
-
-jobs:
-  build:
-    runs-on: macos-14
-    steps:
-      - uses: actions/checkout@v5
-      - name: Build
-        run: swift build -c release
-      - name: Run unit tests
-        run: swift test
-
 # Sample workflow for building and deploying a Jekyll site to GitHub Pages
 name: Deploy Jekyll with GitHub Pages dependencies preinstalled
 
