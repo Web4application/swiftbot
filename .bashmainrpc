@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+MODEL_FILE="model.json"
+RPC_LOG="/tmp/bashrpc.log"
+
+# Load JSON model
+model=$(jq '.' "$MODEL_FILE")
+
+# Dynamically handle calls
+handle_rpc() {
+  local service="$1"
+  local method="$2"
+  local data="$3"
+
+  # Check if service/method exist in model
+  if ! jq -e ".services.\"$service\".methods.\"$method\"" <<< "$model" >/dev/null; then
+    echo "{\"error\":\"Unknown method $service.$method\"}"
+    return
+  fi
+
+  # Execute service
+  case "$service.$method" in
+    ai.ask)
+      curl -s https://api.openai.com/v1/chat/completions \
+        -H "Authorization: Bearer $GPT_API_KEY" \
+        -H "Content-Type: application/json" \
+        -d "{
+              \"model\": \"$(jq -r ".services.ai.model" <<< "$model")\",
+              \"messages\": [{\"role\":\"user\",\"content\":\"$data\"}]
+            }" | jq -r '.choices[0].message.content'
+      ;;
+    sys.info)
+      echo "{\"hostname\":\"$(hostname)\",\"uptime\":\"$(uptime -p)\"}"
+      ;;
+    *)
+      echo "{\"error\":\"Service not implemented yet\"}"
+      ;;
+  esac
+}
+
+# Example local call
+# ./bashmainrpc ai ask "Explain MDSE"
+handle_rpc "$1" "$2" "$3"
+
+export CLOUDFLARE_ACCOUNT_ID="3c2d8a9226729b067992b8515d7c2a75"
+export CLOUDFLARE_API_TOKEN="aVZM8HSx1|rFNqUj7Zmo_3ZkAMUwxju|4QUHcStS"
