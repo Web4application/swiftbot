@@ -26,3 +26,12 @@ swift run swiftbot summarize ./whitepaper.pdf
 
 # Interactive Chat
 swift run swiftbot chat
+
+# 1️⃣ Set your API key
+export GOOGLE_API_KEY="your_google_generative_ai_key"
+
+# 2️⃣ Run summarizer
+swift run summarize ./docs/manifesto.md
+
+# 3️⃣ Or specify output + model
+swift run summarize ./whitepaper.pdf --model "gemini-1.5-pro" --output summary.txt

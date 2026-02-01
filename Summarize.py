@@ -2,7 +2,7 @@ import ArgumentParser
 import GoogleGenerativeAI
 
 struct Summarize: AsyncParsableCommand {
-    @Option var model: String = "gemini-2.5-pro"
+    @Option var model: String = "gpt5 mini"
     @Argument(help: "Path to a Markdown, PDF, or plain‑text file.")
     var filePath: String
 
