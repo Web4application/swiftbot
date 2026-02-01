@@ -34,4 +34,8 @@ export GOOGLE_API_KEY="your_google_generative_ai_key"
 swift run summarize ./docs/manifesto.md
 
 # 3️⃣ Or specify output + model
-swift run summarize ./whitepaper.pdf --model "gemini-1.5-pro" --output summary.txt
+swift run summarize ./whitepaper.pdf --model "gemini-1.5-flash" --output summary.py
+git clone https://github.com/Web4application/script_analyzer_bot.git
+cd script_analyzer_bot
+# Set up virtual environment and install requirements
+pip install -r requirements.txt
