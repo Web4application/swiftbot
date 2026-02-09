@@ -119,3 +119,4 @@ fi
 
 echo "✅ Full Codespace setup complete!"
 echo "Ports 3000 (frontend) & 8000 (backend) should be forwarded automatically."
+sha:6d3686c30d4cda9e1db2f528134cafe0b42de430
